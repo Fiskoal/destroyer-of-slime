@@ -3,6 +3,10 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 500;
+ctx.msImageSmoothingEnabled = false;
+ctx.mozImageSmoothingEnabled = false;
+ctx.webkitImageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
 
 let score = 0;
 let hp = 3;
@@ -59,11 +63,22 @@ class Player {
       ctx.lineTo(mouse.x, mouse.y);
       ctx.stroke();
     }
-    ctx.fillStyle = "red";
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fill();
     ctx.closePath();
+
+    let playerSprite = new Image();
+    playerSprite.src = "./hero-spritesheet.png";
+    ctx.drawImage(
+      playerSprite, 
+      this.frameX * this.spriteWidth, 
+      this.frameY * this.spriteHeight, 
+      this.spriteWidth, 
+      this.spriteHeight, 
+      this.x - 40, 
+      this.y - 40, 
+      this.spriteWidth * 10, 
+      this.spriteHeight * 10);
   }
 }
 
@@ -75,10 +90,14 @@ class Slime {
   constructor () {
     this.x = Math.random() * canvas.width;
     this.y = canvas.height + 50;
-    this.radius = 50;
+    this.radius = 45;
     this.speed = Math.random() * 4 + 1;
     this.distance;
     this.alive = true;
+    this.frameX = 0;
+    this.frameY = 0;
+    this.spriteWidth = 8;
+    this.spriteHeight = 8;
   }
   update () {
     this.y -= this.speed
@@ -87,12 +106,22 @@ class Slime {
     this.distance = Math.sqrt(dx*dx - dy*dy)
   }
   draw () {
-    ctx.fillStyle = "blue";
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fill();
     ctx.closePath();
-    ctx.stroke();
+    
+    let slimeSprite = new Image();
+    slimeSprite.src = "./slime-spritesheet.png";
+    ctx.drawImage(
+      slimeSprite, 
+      this.frameX * this.spriteWidth, 
+      this.frameY * this.spriteHeight, 
+      this.spriteWidth, 
+      this.spriteHeight, 
+      this.x - 40, 
+      this.y - 50, 
+      this.spriteWidth * 10, 
+      this.spriteHeight * 10);
   }
 }
 
@@ -130,3 +159,11 @@ function animate () {
   requestAnimationFrame(animate);
 }
 animate();
+
+// backdrop
+
+let background = new Image();
+background.src = "background-image.png";
+background.onload = function(){
+  ctx.drawImage(background, 500, 800);
+};

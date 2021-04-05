@@ -1,8 +1,14 @@
 // Canvas Setup
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
+const canvas2 = document.getElementById("canvas2");
+const ctx2 = canvas.getContext("2d");
+let windowWidth = window.innerWidth;
+let windowHeight = window.innerHeight;
 canvas.width = 800;
 canvas.height = 500;
+canvas2.width = 800;
+canvas2.height = 500;
 ctx.msImageSmoothingEnabled = false;
 ctx.mozImageSmoothingEnabled = false;
 ctx.webkitImageSmoothingEnabled = false;
@@ -56,13 +62,14 @@ class Player {
     }
   }
   draw () {
-    if (mouse.click) {
-      ctx.lineWidth = 0.2;
-      ctx.beginPath();
-      ctx.moveTo(this.x, this.y);
-      ctx.lineTo(mouse.x, mouse.y);
-      ctx.stroke();
-    }
+    // if (mouse.click) {
+    //   ctx.lineWidth = 0.2;
+    //   ctx.beginPath();
+    //   ctx.moveTo(this.x, this.y);
+    //   ctx.lineTo(mouse.x, mouse.y);
+    //   ctx.stroke();
+    //   ctx.closePath();
+    // }
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.closePath();
@@ -100,10 +107,10 @@ class Slime {
     this.spriteHeight = 8;
   }
   update () {
-    this.y -= this.speed
+    this.y -= this.speed;
     const dx = this.x - player.x;
     const dy = this.y - player.y;
-    this.distance = Math.sqrt(dx*dx - dy*dy)
+    this.distance = Math.sqrt(dx**2 + dy**2);
   }
   draw () {
     ctx.beginPath();
@@ -127,22 +134,25 @@ class Slime {
 
 function handleSlimes () {
   if (gameFrame % 50 == 0) {
+    // every 50 game frames, adds new slime
     slimesArray.push(new Slime());
   };
   for (i = 0; i < slimesArray.length; i++) {
+    // iterates thru slime array and updates the slimes every game frame
     slimesArray[i].update();
     slimesArray[i].draw();
   }
   for (i = 0; i < slimesArray.length; i++) {
+    // checks if slimes reach end of the screen
     if (slimesArray[i].y < 0 - this.radius * 2){
       slimesArray.splice(i, 1);
     }
-    if (slimesArray[i].distance < (slimesArray[i].radius + player.radius)) {
-      if (slimesArray[i].alive) {
-        score++;
-        slimesArray[i].alive = false;
-        slimesArray.splice(i, 1);
-      }
+    // checks for collision + if slime is alive
+    if (slimesArray[i].distance < slimesArray[i].radius + player.radius && slimesArray[i].alive) {
+      console.log("Slime: OW!");
+      slimesArray[i].alive = false;
+      score++;
+      slimesArray.splice(i, 1);
     }
   }
 }
@@ -150,20 +160,24 @@ function handleSlimes () {
 // Animation Looping
 function animate () {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  background();
   handleSlimes();
   player.update();
   player.draw();
   ctx.fillStyle = "black";
   ctx.fillText("score: " + score, 10, 50);
+  canvasPosition = canvas.getBoundingClientRect();
+  windowWidth = window.innerWidth;
+  windowHeight = window.innerHeight;
   gameFrame++;
   requestAnimationFrame(animate);
 }
 animate();
 
-// backdrop
 
-let background = new Image();
-background.src = "background-image.png";
-background.onload = function(){
-  ctx.drawImage(background, 500, 800);
-};
+// Background
+function background () {
+  let background = new Image();
+  background.src = "background-image.png";
+  ctx2.drawImage(background, 0, 0);
+}

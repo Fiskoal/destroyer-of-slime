@@ -136,6 +136,7 @@ function handleSlimes () {
   if (gameFrame % 50 == 0) {
     // every 50 game frames, adds new slime
     slimesArray.push(new Slime());
+    console.log(slimesArray);
   };
   for (i = 0; i < slimesArray.length; i++) {
     // iterates thru slime array and updates the slimes every game frame
@@ -144,7 +145,7 @@ function handleSlimes () {
   }
   for (i = 0; i < slimesArray.length; i++) {
     // checks if slimes reach end of the screen
-    if (slimesArray[i].y < 0 - this.radius * 2){
+    if (slimesArray[i].y < 0 - slimesArray[i].radius * 2){
       slimesArray.splice(i, 1);
     }
     // checks for collision + if slime is alive

@@ -214,7 +214,7 @@ function handleWindow() {
   ctx2.fillText("alpha 0.2", 690, 490)
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "black";
-  ctx.fillText("score: " + score, 10, 45);
+  ctx.fillText("score: " + score + " HP: " + hp, 10, 45);
   canvasPosition = canvas.getBoundingClientRect();
   windowWidth = window.innerWidth;
   windowHeight = window.innerHeight;
@@ -248,13 +248,19 @@ function handleSlimes() {
     // checks if slimes reach end of the screen
     if (slimesArray[i].y < 0 - slimesArray[i].radius * 2) {
       slimesArray.splice(i, 1);
+      hp -= 1;
     }
     // checks for collision + if slime is alive
     if (slimesArray[i].distance < slimesArray[i].radius + player.radius && slimesArray[i].alive) {
       console.log("Slime: OW!");
       slimesArray[i].alive = false;
       score++;
-      slimesArray.splice(i, 1);
+      if (slimesArray[i].speed >= 4) {
+        hp += 1
+        slimesArray.splice(i, 1);
+      } else {
+        slimesArray.splice(i, 1);
+      }
     }
   }
 }
@@ -265,6 +271,8 @@ function animate() {
   handlePlayer();
   handleSlimes();
   gameFrame++;
-  requestAnimationFrame(animate);
+  if (hp > 0) {
+    requestAnimationFrame(animate);
+  }
 }
 animate();

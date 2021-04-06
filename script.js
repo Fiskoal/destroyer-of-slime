@@ -19,6 +19,21 @@ let hp = 3;
 let gameFrame = 0;
 ctx.font = "50px Monospace"
 
+
+window.onload = function enterPassword () {
+  let key = prompt("Please enter your ALPHA KEY")
+  if (key === null) {
+    alert("Incorrect")
+    return enterPassword();
+  } else if (key.toLowerCase() == "alphagamerchads69"){
+    alert("Success");
+    return animate();
+  } else {
+    alert("Incorrect")
+    return enterPassword();
+  }
+}
+
 // Mouse Interactivity
 let canvasPosition = canvas.getBoundingClientRect();
 
@@ -173,7 +188,7 @@ function animate () {
   gameFrame++;
   requestAnimationFrame(animate);
 }
-animate();
+// animate();
 
 
 // Background

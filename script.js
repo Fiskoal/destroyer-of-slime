@@ -13,6 +13,10 @@ ctx.msImageSmoothingEnabled = false;
 ctx.mozImageSmoothingEnabled = false;
 ctx.webkitImageSmoothingEnabled = false;
 ctx.imageSmoothingEnabled = false;
+ctx2.msImageSmoothingEnabled = false;
+ctx2.mozImageSmoothingEnabled = false;
+ctx2.webkitImageSmoothingEnabled = false;
+ctx2.imageSmoothingEnabled = false;
 
 let score = 0;
 let hp = 3;
@@ -206,7 +210,7 @@ class Slime {
 function handleWindow() {
   let background = new Image();
   background.src = "background-image.png";
-  ctx2.drawImage(background, 0, 0);
+  ctx2.drawImage(background, 0, 0, canvas.width, canvas.height);
   ctx2.fillText("alpha 0.2", 690, 490)
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "black";

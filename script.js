@@ -2,7 +2,7 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 const canvas2 = document.getElementById("canvas2");
-const ctx2 = canvas.getContext("2d");
+const ctx2 = canvas2.getContext("2d");
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 canvas.width = 800;
@@ -17,7 +17,8 @@ ctx.imageSmoothingEnabled = false;
 let score = 0;
 let hp = 3;
 let gameFrame = 0;
-ctx.font = "50px Monospace"
+ctx.font = "50px monospace"
+ctx2.font = "20px monospace"
 
 // Mouse Interactivity
 let canvasPosition = canvas.getBoundingClientRect();
@@ -28,10 +29,13 @@ const mouse = {
   click: false,
 }
 
+document.addEventListener("contextmenu", (event) => event.preventDefault())
+
 canvas.addEventListener("mousedown", function (event) {
   mouse.click = true;
   mouse.x = event.x - canvasPosition.left;
   mouse.y = event.y - canvasPosition.top;
+  
 });
 
 canvas.addEventListener("mouseup", function (event) {
@@ -178,7 +182,14 @@ class Slime {
     ctx.closePath();
 
     let slimeSprite = new Image();
-    slimeSprite.src = "./slime-spritesheet.png";
+    
+    if (this.speed >= 4) {
+      slimeSprite.src = "./angryslime-spritesheet.png"
+    }
+    if (this.speed < 4) {
+      slimeSprite.src = "./slime-spritesheet.png";
+    }
+
     ctx.drawImage(
       slimeSprite,
       this.frameX * this.spriteWidth,
@@ -192,13 +203,14 @@ class Slime {
   }
 }
 
-let background = new Image();
-background.src = "background-image.png";
 function handleWindow() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let background = new Image();
+  background.src = "background-image.png";
   ctx2.drawImage(background, 0, 0);
+  ctx2.fillText("alpha 0.2", 690, 490)
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "black";
-  ctx.fillText("score: " + score, 10, 50);
+  ctx.fillText("score: " + score, 10, 45);
   canvasPosition = canvas.getBoundingClientRect();
   windowWidth = window.innerWidth;
   windowHeight = window.innerHeight;

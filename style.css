@@ -43,4 +43,5 @@ body {
   position: absolute;
   width: 800px;
   height: 500px;
+  z-index: 1;
 }

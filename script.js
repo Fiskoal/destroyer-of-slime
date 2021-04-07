@@ -158,7 +158,7 @@ class Player {
 const player = new Player;
 
 // Bubbles
-const slimesArray = [];
+let slimesArray = [];
 class Slime {
   constructor() {
     this.x = (Math.random() * canvas.width) >> 0;
@@ -265,6 +265,16 @@ function handleSlimes() {
   }
 }
 
+function gameOver() {
+  handleWindow();
+  player.x = canvas.width/2;
+  player.y = canvas.height/2;
+  player.frameX = 0;
+  player.frameY = 0;
+  handlePlayer();
+  ctx.fillText("GAME OVER", canvas.width/2 - 130, canvas.height/2 + 80);
+}
+
 // Animation Looping
 function animate() {
   handleWindow();
@@ -273,6 +283,8 @@ function animate() {
   gameFrame++;
   if (hp > 0) {
     requestAnimationFrame(animate);
+  } else {
+    gameOver();
   }
 }
 animate();

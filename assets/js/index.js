@@ -70,7 +70,7 @@ class Player {
     this.frame = 0;
     this.spriteWidth = 8;
     this.spriteHeight = 8;
-    this.speed = 4.65;
+    this.speed = 4.85;
     this.diagonalSpeed = (Math.sqrt(this.speed ** 2 + this.speed ** 2)) / 2;
     this.direction = 3;
   }
@@ -91,6 +91,10 @@ class Player {
     ? this.moveDownLeft()
     : (keys.s && keys.d) && !keys.a
     ? this.moveDownRight()
+    : (keys.w && keys.a && keys.d) && !keys.s
+    ? this.moveUp()
+    : (keys.s && keys.a && keys.d) && !keys.w
+    ? this.moveDown()
     : this.notMoving()
   }
   moveUp() {
@@ -262,6 +266,8 @@ class Player {
 const player = new Player;
 
 let slimesArray = [];
+let slimeCount = 0;
+
 class Slime {
   constructor() {
     this.x = (Math.random() * canvas.width) >> 0;
@@ -276,8 +282,10 @@ class Slime {
     this.spriteHeight = 8;
     this.redChance = Math.random();
     this.isRed = false;
+    this.greenSlimeCount = slimeCount;
     this.dx = this.x - player.x;
     this.dy = this.y - player.y;
+    this.isCounted = false;
   }
   update() {
     this.y -= this.speed;
@@ -296,10 +304,19 @@ class Slime {
     ctx.closePath();
 
     let slimeSprite = new Image();
-
-    if (this.redChance >= 0 && this.redChance <= 0.04) {
-      slimeSprite.src = "./assets/images/characters/angryslime-spritesheet.png";
+    
+    if (this.greenSlimeCount > this.redChance * 100 + 1) {
       this.isRed = true;
+      this.greenSlimeCount = 0;
+      slimeCount = 0;
+      this.isCounted = true;
+    } else if (!this.isRed && !this.isCounted){
+      slimeCount++;
+      this.isCounted = true;
+    };
+
+    if (this.isRed) {
+      slimeSprite.src = "./assets/images/characters/angryslime-spritesheet.png";
     } else {
       slimeSprite.src = "./assets/images/characters/slime-spritesheet.png";
     };
@@ -383,6 +400,7 @@ function gameOverEvent (e) {
     score = 0;
     hp = 3;
     gameFrame = 0;
+    greenSlimeCount = 0;
     slimesArray = [];
     animate();
   }

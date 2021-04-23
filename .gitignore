@@ -1,0 +1,9 @@
+node_modules
+electron
+icons
+main.js
+package.json
+package-lock.json
+electron.css
+electron.html
+release-builds

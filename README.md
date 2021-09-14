@@ -2,4 +2,4 @@
 
 Play the game [here](https://fiskoal.github.io/destroyer-of-slime)
 
-![Title Screen](/assets/images/title-screen.png)
+![Title Screen(/assets/images/title-screen.png)](https://fiskoal.github.io/destroyer-of-slime)

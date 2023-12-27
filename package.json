@@ -2,7 +2,7 @@
   "name": "destroyer-of-slime",
   "version": "0.1.0",
   "description": "Play the game [here](https://fiskoal.github.io/destroyer-of-slime)",
-  "main": "index.js",
+  "main": "game.js",
   "scripts": {
     "electron": "electron .",
     "electron-build": "electron .",
@@ -25,5 +25,9 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "electron-forge": "^5.2.4"
+  },
+  "devDependencies": {
+    "electron-prebuilt-compile": "8.2.0",
+    "path": "^0.12.7"
   }
 }

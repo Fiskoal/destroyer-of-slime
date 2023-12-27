@@ -426,3 +426,7 @@ function gameMenuEvent(e) {
     animate();
   }
 }
+
+const destroyerOfSlime = { Player, Slime }
+
+module.exports = destroyerOfSlime;

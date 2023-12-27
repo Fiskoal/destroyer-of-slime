@@ -1,0 +1,29 @@
+{
+  "name": "destroyer-of-slime",
+  "version": "0.1.0",
+  "description": "Play the game [here](https://fiskoal.github.io/destroyer-of-slime)",
+  "main": "index.js",
+  "scripts": {
+    "electron": "electron .",
+    "electron-build": "electron .",
+    "restart": "electron-force start",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "keywords": [],
+  "author": "Fiskoal",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fiskoal/destroyer-of-slime.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Fiskoal/destroyer-of-slime/issues"
+  },
+  "homepage": "https://github.com/Fiskoal/destroyer-of-slime#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "electron-forge": "^5.2.4"
+  }
+}
